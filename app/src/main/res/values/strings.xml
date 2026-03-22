@@ -1,0 +1,78 @@
+<resources>
+    <string name="app_name">OxygenToolbox</string>
+    <string name="disclaimer_title">Disclaimer</string>
+    <string name="disclaimer_text">This app is provided strictly as-is and is open source.\n\nWARNING: WE STRONGLY RECOMMENDS AGAINST UNLOCKING THE BOOTLOADER AND/OR MODIFYING OR ALTERING A DEVICE\'S SOFTWARE OR OPERATING SYSTEM. DOING SO CAN HAVE UNINTENDED, UNFORESEEN, AND DANGEROUS CONSEQUENCES, SUCH AS RENDERING THE DEVICE UNUSABLE, VIOLATING APPLICABLE LAWS, OR CAUSING PROPERTY DAMAGE AND/OR BODILY INJURY, INCLUDING DEATH.</string>
+    <string name="agree">Agree</string>
+    <string name="disagree">Disagree</string>
+    <string name="root_required_title">Root Permission Required</string>
+    <string name="root_required_text">OxygenToolbox requires Root permissions to function. Please grant Root access in your superuser manager (Magisk/KernelSU/APatch).</string>
+    <string name="ok">OK</string>
+    
+    <string name="tab_tools">Tools</string>
+    <string name="tab_system">System</string>
+    <string name="tab_about">About</string>
+    
+    <string name="mode_root">Root Mode</string>
+    <string name="mode_shizuku">Shizuku Mode</string>
+    <string name="shizuku_unavailable_title">Unavailable</string>
+    <string name="shizuku_unavailable_desc">Shizuku mode does not support features in the system tab.</string>
+    <string name="shizuku_not_running">Shizuku is not running!</string>
+    <string name="shizuku_auth_failed">Shizuku authorization failed.</string>
+    
+    <string name="auth_title">Authentication Required</string>
+    <string name="auth_desc">OxygenToolbox requires either Root access or Shizuku authorization to function properly. Please choose an authorization method below.</string>
+    <string name="auth_btn_root">Grant Root Access</string>
+    <string name="auth_btn_shizuku">Authorize Shizuku</string>
+    
+    <string name="tools_header_assistant">Assistant Screen Options</string>
+    <string name="tools_shelf_title">Set to Shelf</string>
+    <string name="tools_shelf_desc">Sets the negative screen (left swipe) to OnePlus Shelf.</string>
+    <string name="tools_discover_title">Set to Google Discover</string>
+    <string name="tools_discover_desc">Sets the negative screen to Google Discover.</string>
+    <string name="tools_disable_title">Disable Assistant Screen</string>
+    <string name="tools_disable_desc">Completely disables the negative screen.</string>
+    
+    <string name="tools_header_system_apps">System Apps</string>
+    <string name="tools_sms_title">Activate ColorOS SMS</string>
+    <string name="tools_sms_desc">Grants necessary permissions for the ColorOS SMS app.</string>
+    <string name="tools_install_sms_title">Install ColorOS SMS</string>
+    <string name="tools_install_sms_desc">Installs the embedded ColorOS SMS app module.</string>
+    
+    <string name="system_header_diagnostics">Diagnostics</string>
+    <string name="system_arb_status_title">Check ARB Status</string>
+    <string name="system_arb_status_desc">Runs the Anti-Rollback detection tool. Requires root.</string>
+    <string name="system_header_experimental">Experimental Features</string>
+    <string name="system_anti_arb_title">Anti-ARB (Experimental)</string>
+    <string name="system_anti_arb_desc">Synchronizes the xbl_config partition to the inactive slot. Use only BEFORE rebooting an OTA.</string>
+    
+    <string name="anti_arb_dialog_title">Anti-ARB (High Risk)</string>
+    <string name="anti_arb_dialog_text">HIGHLY EXPERIMENTAL\nThis feature must only be used AFTER an OTA download completes and BEFORE rebooting!\n\nWARNING: No guarantees of availability. Misuse carries an irrecoverable bricking risk!</string>
+    <string name="confirm">Confirm</string>
+    <string name="confirm_countdown">Confirm (%1$d)</string>
+    <string name="cancel">Cancel</string>
+    
+    <string name="arb_result_tripped">Tripped (已熔断)</string>
+    <string name="arb_result_not_tripped">Not Tripped (未熔断)</string>
+    <string name="arb_desc_tripped">You cannot use unauthorized EDL, and you cannot downgrade to an ARB Index 0 version.</string>
+    <string name="arb_desc_not_tripped">You may freely use leaked Loader for EDL flashing, and you may freely downgrade your system.</string>
+    <string name="back">Back</string>
+    
+    <string name="about_desc">An essential utility app for modern OxygenOS devices requiring root privileges.</string>
+    <string name="about_version">Version: %1$s</string>
+    <string name="about_author">Author: EraserCN</string>
+    <string name="about_platform">Build Platform: %1$s</string>
+    <string name="about_build_time">Build Time: %1$s</string>
+    <string name="about_target_sdk">Target SDK: %1$d</string>
+    <string name="about_acknowledgements">Acknowledgements</string>
+    <string name="about_ack_desc">Stillrain-001 for ARBscan</string>
+    
+    <string name="toast_success">%1$s: Success</string>
+    <string name="toast_failed">%1$s: Failed\n%2$s</string>
+    <string name="arb_check_failed">ARB Check Failed: %1$s</string>
+    <string name="arb_status_unknown">ARB Status: Unknown\nResult: %1$s</string>
+    
+    <string name="anti_arb_success_same">Dual slot xbl_config matches, no execution needed.</string>
+    <string name="anti_arb_success_flashed">Anti-ARB executed successfully!\nPlease go to [System Update] to reboot your device.</string>
+    <string name="anti_arb_failed">Anti-ARB Failed: %1$s</string>
+    <string name="error">Error: %1$s</string>
+</resources>

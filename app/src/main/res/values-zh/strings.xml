@@ -1,0 +1,78 @@
+<resources>
+    <string name="app_name">OxygenToolbox</string>
+    <string name="disclaimer_title">免责声明</string>
+    <string name="disclaimer_text">本app开源按原样提供不做任何保证。\n\nWARNING: WE STRONGLY RECOMMENDS AGAINST UNLOCKING THE BOOTLOADER AND/OR MODIFYING OR ALTERING A DEVICE\'S SOFTWARE OR OPERATING SYSTEM. DOING SO CAN HAVE UNINTENDED, UNFORESEEN, AND DANGEROUS CONSEQUENCES, SUCH AS RENDERING THE DEVICE UNUSABLE, VIOLATING APPLICABLE LAWS, OR CAUSING PROPERTY DAMAGE AND/OR BODILY INJURY, INCLUDING DEATH.</string>
+    <string name="agree">同意</string>
+    <string name="disagree">不同意</string>
+    <string name="root_required_title">需要 Root 权限</string>
+    <string name="root_required_text">OxygenToolbox 需要 Root 权限才能运行。请在您的超级用户管理器（Magisk/KernelSU/APatch）中授予权限。</string>
+    <string name="ok">确定</string>
+    
+    <string name="tab_tools">工具</string>
+    <string name="tab_system">系统</string>
+    <string name="tab_about">关于</string>
+    
+    <string name="mode_root">Root 模式</string>
+    <string name="mode_shizuku">Shizuku 模式</string>
+    <string name="shizuku_unavailable_title">不可用</string>
+    <string name="shizuku_unavailable_desc">Shizuku 模式不支持“系统”选项卡内的功能。</string>
+    <string name="shizuku_not_running">Shizuku 未运行！</string>
+    <string name="shizuku_auth_failed">Shizuku 授权失败。</string>
+    
+    <string name="auth_title">需要授权</string>
+    <string name="auth_desc">OxygenToolbox 需要 Root 权限或 Shizuku 授权才能正常运行。请在下方选择一种授权方式。</string>
+    <string name="auth_btn_root">授予 Root 权限</string>
+    <string name="auth_btn_shizuku">授权 Shizuku</string>
+    
+    <string name="tools_header_assistant">负一屏选项</string>
+    <string name="tools_shelf_title">设置为 Shelf</string>
+    <string name="tools_shelf_desc">将副屏（左滑）设置为一加 Shelf。</string>
+    <string name="tools_discover_title">设置为 Google Discover</string>
+    <string name="tools_discover_desc">将负一屏设置为 Google Discover 探索。</string>
+    <string name="tools_disable_title">关闭负一屏</string>
+    <string name="tools_disable_desc">彻底禁用系统负一屏。</string>
+    
+    <string name="tools_header_system_apps">系统应用</string>
+    <string name="tools_sms_title">激活 ColorOS 短信</string>
+    <string name="tools_sms_desc">授予 ColorOS 短信应用所需的必要电话状态权限。</string>
+    <string name="tools_install_sms_title">安装 ColorOS 短信</string>
+    <string name="tools_install_sms_desc">静默安装应用内置打包的 ColorOS 短信提取版。</string>
+    
+    <string name="system_header_diagnostics">诊断工具</string>
+    <string name="system_arb_status_title">检测 ARB 状态</string>
+    <string name="system_arb_status_desc">运行防回滚 (Anti-Rollback) 检测工具，获取熔断指数。</string>
+    <string name="system_header_experimental">实验性功能</string>
+    <string name="system_anti_arb_title">Anti-ARB 防回滚</string>
+    <string name="system_anti_arb_desc">将活动槽的 xbl_config 同步刷入非活动槽。只在 OTA 下载完成且重启前使用。</string>
+    
+    <string name="anti_arb_dialog_title">Anti-ARB (高风险)</string>
+    <string name="anti_arb_dialog_text">HIGHLY EXPERIMENTAL\n此功能只能在 OTA 下载完成并且重启之前使用！\n\n警告：无任何可用性保证，可能会导致设备无法正常启动或无法挽回的砖机风险！</string>
+    <string name="confirm">确认执行</string>
+    <string name="confirm_countdown">确认 (%1$d)</string>
+    <string name="cancel">取消</string>
+    
+    <string name="arb_result_tripped">已熔断 (Tripped)</string>
+    <string name="arb_result_not_tripped">未熔断 (Not Tripped)</string>
+    <string name="arb_desc_tripped">您无法使用免授权EDL，无法降级到ARB Index为0的版本。</string>
+    <string name="arb_desc_not_tripped">您可以随意使用泄露的Loader进行EDL刷机，您可以随意降级系统。</string>
+    <string name="back">返回</string>
+    
+    <string name="about_desc">适用于现代 OxygenOS 系统的多功能系统辅助工具箱，需要 Root 权限。</string>
+    <string name="about_version">版本: %1$s</string>
+    <string name="about_author">作者: EraserCN</string>
+    <string name="about_platform">编译平台: %1$s</string>
+    <string name="about_build_time">编译时间: %1$s</string>
+    <string name="about_target_sdk">目标 SDK: %1$d</string>
+    <string name="about_acknowledgements">致谢</string>
+    <string name="about_ack_desc">Stillrain-001 for ARBscan</string>
+    
+    <string name="toast_success">%1$s: 执行成功</string>
+    <string name="toast_failed">%1$s: 失败\n%2$s</string>
+    <string name="arb_check_failed">ARB检测失败: %1$s</string>
+    <string name="arb_status_unknown">ARB 状态: 未知\n结果: %1$s</string>
+    
+    <string name="anti_arb_success_same">双槽位 xbl_config 校验一致，无需执行。</string>
+    <string name="anti_arb_success_flashed">Anti-ARB 执行成功！\n请前往【系统更新】里面重启您的设备。</string>
+    <string name="anti_arb_failed">Anti-ARB 失败: %1$s</string>
+    <string name="error">异常错误: %1$s</string>
+</resources>
