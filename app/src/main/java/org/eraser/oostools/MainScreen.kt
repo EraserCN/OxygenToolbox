@@ -3,6 +3,7 @@ package org.eraser.oostools
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -15,6 +16,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Build
 import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.PhoneAndroid
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -67,6 +69,48 @@ fun MainScreen() {
                     (context as? android.app.Activity)?.finish() 
                 }) {
                     Text(stringResource(R.string.disagree), color = MaterialTheme.colorScheme.error)
+                }
+            }
+        )
+        return
+    }
+
+    // OPlus device check
+    var showOplusWarning by remember { mutableStateOf(!isOplusDevice()) }
+    if (showOplusWarning) {
+        AlertDialog(
+            onDismissRequest = { /* non-dismissable */ },
+            title = { Text(stringResource(R.string.oplus_check_title), color = MaterialTheme.colorScheme.error) },
+            text = { Text(text = stringResource(R.string.oplus_check_text), style = MaterialTheme.typography.bodyMedium) },
+            confirmButton = {
+                TextButton(onClick = { showOplusWarning = false }) {
+                    Text(stringResource(R.string.oplus_check_continue))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { (context as? android.app.Activity)?.finish() }) {
+                    Text(stringResource(R.string.oplus_check_exit), color = MaterialTheme.colorScheme.error)
+                }
+            }
+        )
+        return
+    }
+
+    // OPlus firmware (ROM) check
+    var showFirmwareWarning by remember { mutableStateOf(!isOplusFirmware()) }
+    if (showFirmwareWarning) {
+        AlertDialog(
+            onDismissRequest = { /* non-dismissable */ },
+            title = { Text(stringResource(R.string.firmware_check_title), color = MaterialTheme.colorScheme.error) },
+            text = { Text(text = stringResource(R.string.firmware_check_text), style = MaterialTheme.typography.bodyMedium) },
+            confirmButton = {
+                TextButton(onClick = { showFirmwareWarning = false }) {
+                    Text(stringResource(R.string.oplus_check_continue))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { (context as? android.app.Activity)?.finish() }) {
+                    Text(stringResource(R.string.oplus_check_exit), color = MaterialTheme.colorScheme.error)
                 }
             }
         )
@@ -212,10 +256,16 @@ fun MainScreen() {
                     onClick = { currentTab = 1 }
                 )
                 NavigationBarItem(
-                    icon = { Icon(Icons.Rounded.Info, contentDescription = stringResource(R.string.tab_about)) },
-                    label = { Text(stringResource(R.string.tab_about)) },
+                    icon = { Icon(Icons.Rounded.PhoneAndroid, contentDescription = stringResource(R.string.tab_device)) },
+                    label = { Text(stringResource(R.string.tab_device)) },
                     selected = currentTab == 2,
                     onClick = { currentTab = 2 }
+                )
+                NavigationBarItem(
+                    icon = { Icon(Icons.Rounded.Info, contentDescription = stringResource(R.string.tab_about)) },
+                    label = { Text(stringResource(R.string.tab_about)) },
+                    selected = currentTab == 3,
+                    onClick = { currentTab = 3 }
                 )
             }
         }
@@ -226,7 +276,8 @@ fun MainScreen() {
             when (currentTab) {
                 0 -> ToolsTab(context, isExecuting, { isExecuting = it })
                 1 -> SystemTab(context, isExecuting, { isExecuting = it }, { arbResult = it })
-                2 -> AboutTab(context)
+                2 -> DeviceInfoTab()
+                3 -> AboutTab(context)
             }
         }
     }
@@ -596,6 +647,96 @@ fun ArbResultScreen(isTripped: Boolean, rawOutput: String, onBack: () -> Unit) {
 }
 
 @Composable
+fun DeviceInfoTab() {
+    val kernelVersion = remember {
+        try {
+            java.io.File("/proc/version").readText().trim().take(120)
+        } catch (e: Exception) {
+            "N/A"
+        }
+    }
+    val socModel = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) Build.SOC_MODEL else "N/A"
+    val socManufacturer = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) Build.SOC_MANUFACTURER else "N/A"
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+            .padding(horizontal = 24.dp)
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+            text = stringResource(R.string.device_info_header_device),
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onBackground
+        )
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(24.dp))
+                .background(MaterialTheme.colorScheme.surface)
+                .padding(20.dp)
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                DeviceInfoRow(label = stringResource(R.string.device_info_model), value = Build.MODEL)
+                DeviceInfoRow(label = stringResource(R.string.device_info_brand), value = Build.BRAND)
+                DeviceInfoRow(label = stringResource(R.string.device_info_manufacturer), value = Build.MANUFACTURER)
+                DeviceInfoRow(label = stringResource(R.string.device_info_board), value = Build.BOARD)
+                DeviceInfoRow(label = stringResource(R.string.device_info_abis), value = Build.SUPPORTED_ABIS.joinToString(", "))
+                DeviceInfoRow(label = stringResource(R.string.device_info_soc_model), value = socModel)
+                DeviceInfoRow(label = stringResource(R.string.device_info_soc_manufacturer), value = socManufacturer)
+            }
+        }
+
+        Text(
+            text = stringResource(R.string.device_info_header_software),
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onBackground
+        )
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(24.dp))
+                .background(MaterialTheme.colorScheme.surface)
+                .padding(20.dp)
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                DeviceInfoRow(label = stringResource(R.string.device_info_android_version), value = Build.VERSION.RELEASE)
+                DeviceInfoRow(label = stringResource(R.string.device_info_api_level), value = Build.VERSION.SDK_INT.toString())
+                DeviceInfoRow(label = stringResource(R.string.device_info_security_patch), value = Build.VERSION.SECURITY_PATCH)
+                DeviceInfoRow(label = stringResource(R.string.device_info_build_number), value = Build.ID)
+                DeviceInfoRow(label = stringResource(R.string.device_info_kernel), value = kernelVersion)
+            }
+        }
+
+        Spacer(modifier = Modifier.height(32.dp))
+    }
+}
+
+@Composable
+fun DeviceInfoRow(label: String, value: String) {
+    Column {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.55f)
+        )
+        Spacer(modifier = Modifier.height(2.dp))
+        Text(
+            text = value,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurface,
+            fontWeight = FontWeight.Medium
+        )
+    }
+}
+
+@Composable
 fun AboutTab(context: Context) {
     Column(
         modifier = Modifier
@@ -723,7 +864,23 @@ fun AboutCard(context: android.content.Context) {
             Spacer(modifier = Modifier.height(24.dp))
             HorizontalDivider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
             Spacer(modifier = Modifier.height(12.dp))
-            
+
+            // GitHub link
+            val githubUrl = "https://github.com/EraserCN/OxygenToolbox"
+            TextButton(onClick = {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(githubUrl))
+                context.startActivity(intent)
+            }) {
+                Text(
+                    text = stringResource(R.string.about_github),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+
+            HorizontalDivider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
+            Spacer(modifier = Modifier.height(12.dp))
+
             Text(
                 text = stringResource(R.string.about_acknowledgements),
                 style = MaterialTheme.typography.titleMedium,
@@ -738,6 +895,39 @@ fun AboutCard(context: android.content.Context) {
             )
         }
     }
+}
+
+private fun isOplusDevice(): Boolean {
+    val brand = Build.BRAND.lowercase()
+    val manufacturer = Build.MANUFACTURER.lowercase()
+    val oplusKeywords = listOf("oppo", "oneplus", "realme", "oplus")
+    return oplusKeywords.any { brand.contains(it) || manufacturer.contains(it) }
+}
+
+/**
+ * Returns true if the device is running OxygenOS, ColorOS, or RealmeUI.
+ * Detection is done by reading known system properties via reflection.
+ */
+private fun isOplusFirmware(): Boolean {
+    fun getProp(key: String): String = try {
+        val c = Class.forName("android.os.SystemProperties")
+        c.getMethod("get", String::class.java, String::class.java)
+            .invoke(null, key, "") as? String ?: ""
+    } catch (_: Exception) { "" }
+
+    // OxygenOS
+    if (getProp("ro.oxygen.version").isNotEmpty()) return true
+    if (getProp("ro.build.version.oplusrom.display").isNotEmpty()) return true
+    // ColorOS
+    if (getProp("ro.coloros.version").isNotEmpty()) return true
+    if (getProp("ro.build.version.oplusrom").isNotEmpty()) return true
+    // RealmeUI
+    if (getProp("ro.build.version.realmeui").isNotEmpty()) return true
+    // Generic OPlus ROM marker
+    if (getProp("ro.build.oplus_display_name").isNotEmpty()) return true
+    if (getProp("ro.vendor.oplus.market.name").isNotEmpty()) return true
+
+    return false
 }
 
 @Composable

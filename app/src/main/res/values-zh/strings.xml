@@ -10,6 +10,7 @@
     
     <string name="tab_tools">工具</string>
     <string name="tab_system">系统</string>
+    <string name="tab_device">设备</string>
     <string name="tab_about">关于</string>
     
     <string name="mode_root">Root 模式</string>
@@ -63,8 +64,35 @@
     <string name="about_platform">编译平台: %1$s</string>
     <string name="about_build_time">编译时间: %1$s</string>
     <string name="about_target_sdk">目标 SDK: %1$d</string>
+    <string name="about_github">GitHub: github.com/EraserCN/OxygenToolbox</string>
     <string name="about_acknowledgements">致谢</string>
     <string name="about_ack_desc">Stillrain-001 for ARBscan</string>
+
+    <!-- 设备信息选项卡 -->
+    <string name="device_info_header_device">设备信息</string>
+    <string name="device_info_header_software">软件信息</string>
+    <string name="device_info_model">型号</string>
+    <string name="device_info_brand">品牌</string>
+    <string name="device_info_manufacturer">制造商</string>
+    <string name="device_info_board">主板 / 代号</string>
+    <string name="device_info_abis">支持的 ABI</string>
+    <string name="device_info_android_version">Android 版本</string>
+    <string name="device_info_api_level">API 级别</string>
+    <string name="device_info_security_patch">安全补丁</string>
+    <string name="device_info_build_number">版本号</string>
+    <string name="device_info_soc_model">SoC 型号</string>
+    <string name="device_info_soc_manufacturer">SoC 制造商</string>
+    <string name="device_info_kernel">内核版本</string>
+
+    <!-- OPlus 设备检测 -->
+    <string name="oplus_check_title">兼容性警告</string>
+    <string name="oplus_check_text">本应用仅适用于 OPlus 系列设备（OPPO / OnePlus / Realme）。在其他设备上执行操作可能会导致不可预测的问题。</string>
+    <string name="oplus_check_continue">仍然继续</string>
+    <string name="oplus_check_exit">退出</string>
+
+    <!-- OPlus 固件检测 -->
+    <string name="firmware_check_title">不支持的固件</string>
+    <string name="firmware_check_text">未检测到 OxygenOS / ColorOS / RealmeUI。本应用仅为上述固件版本设计，在其他 ROM（如 AOSP、LineageOS）上运行可能导致不可预测的问题或功能失效。</string>
     
     <string name="toast_success">%1$s: 执行成功</string>
     <string name="toast_failed">%1$s: 失败\n%2$s</string>
