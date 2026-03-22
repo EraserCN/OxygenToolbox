@@ -45,6 +45,8 @@
     <string name="system_header_experimental">实验性功能</string>
     <string name="system_anti_arb_title">Anti-ARB 防回滚</string>
     <string name="system_anti_arb_desc">将活动槽的 xbl_config 同步刷入非活动槽。只在 OTA 下载完成且重启前使用。</string>
+    <string name="system_widevine_title">修复 Widevine L1 认证</string>
+    <string name="system_widevine_desc">将设备认证 Keybox 永久烧录至 TEE，以恢复 Widevine L1 认证。此操作不可撤销，将永久修改 TEE。</string>
     
     <string name="anti_arb_dialog_title">Anti-ARB (高风险)</string>
     <string name="anti_arb_dialog_text">HIGHLY EXPERIMENTAL\n此功能只能在 OTA 下载完成并且重启之前使用！\n\n警告：无任何可用性保证，可能会导致设备无法正常启动或无法挽回的砖机风险！</string>
@@ -66,7 +68,8 @@
     <string name="about_target_sdk">目标 SDK: %1$d</string>
     <string name="about_github">GitHub: github.com/EraserCN/OxygenToolbox</string>
     <string name="about_acknowledgements">致谢</string>
-    <string name="about_ack_desc">Stillrain-001 for ARBscan</string>
+    <string name="about_ack_desc">• Stillrain-001 — ARBscan 工具</string>
+    <string name="about_ack_widevine">• mlgmxyysd &amp; Steve0007 — Widevine 修复</string>
 
     <!-- 设备信息选项卡 -->
     <string name="device_info_header_device">设备信息</string>
@@ -103,4 +106,10 @@
     <string name="anti_arb_success_flashed">Anti-ARB 执行成功！\n请前往【系统更新】里面重启您的设备。</string>
     <string name="anti_arb_failed">Anti-ARB 失败: %1$s</string>
     <string name="error">异常错误: %1$s</string>
+
+    <!-- Widevine L1 修复 -->
+    <string name="widevine_dialog_title">修复 Widevine L1（高风险）</string>
+    <string name="widevine_dialog_text">警告：此操作将认证 Keybox 永久烧录至 TEE。\n\n有用户报告，烧录后回锁 Bootloader 会导致 TEE 损坏。请确认您已阅读并理解上述所有内容后再继续操作。</string>
+    <string name="widevine_success">Widevine L1 Keybox 安装成功！</string>
+    <string name="widevine_failed">Widevine L1 修复失败: %1$s</string>
 </resources>

@@ -414,6 +414,7 @@ fun SystemTab(
 ) {
     val coroutineScope = rememberCoroutineScope()
     var showAntiArb by remember { mutableStateOf(false) }
+    var showWidevine by remember { mutableStateOf(false) }
     var showShizukuUnavailable by remember { mutableStateOf(false) }
 
     if (showShizukuUnavailable) {
@@ -470,6 +471,55 @@ fun SystemTab(
                 }
             },
             onDismiss = { showAntiArb = false }
+        )
+    }
+
+    if (showWidevine) {
+        WidevineDialog(
+            onConfirm = {
+                showWidevine = false
+                setExecuting(true)
+                coroutineScope.launch(Dispatchers.IO) {
+                    try {
+                        // Step 1: copy attestation from assets to app filesDir
+                        AssetUtils.copyAssetsToFilesDir(context, listOf("attestation"))
+                        val srcPath = "${context.filesDir.absolutePath}/attestation"
+
+                        // Step 2: push to /data/local/tmp via root cp
+                        val pushResult = RootExecutor.execute("cp \"$srcPath\" /data/local/tmp/attestation")
+                        if (!pushResult.success) {
+                            withContext(Dispatchers.Main) {
+                                setExecuting(false)
+                                Toast.makeText(context, context.getString(R.string.widevine_failed, pushResult.error), Toast.LENGTH_LONG).show()
+                            }
+                            return@launch
+                        }
+
+                        // Step 3: run KmInstallKeybox
+                        val installCmd = "LD_LIBRARY_PATH=/vendor/lib64/hw KmInstallKeybox /data/local/tmp/attestation attestation true"
+                        val installResult = RootExecutor.execute(installCmd)
+
+                        // Step 4: always clean up temp file
+                        RootExecutor.execute("rm /data/local/tmp/attestation")
+
+                        withContext(Dispatchers.Main) {
+                            setExecuting(false)
+                            if (installResult.success && installResult.output.contains("InstallKeybox is done", ignoreCase = true)) {
+                                Toast.makeText(context, context.getString(R.string.widevine_success), Toast.LENGTH_LONG).show()
+                            } else {
+                                val err = if (installResult.output.isNotEmpty()) installResult.output else installResult.error
+                                Toast.makeText(context, context.getString(R.string.widevine_failed, err), Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    } catch (e: Exception) {
+                        withContext(Dispatchers.Main) {
+                            setExecuting(false)
+                            Toast.makeText(context, context.getString(R.string.error, e.message), Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+            },
+            onDismiss = { showWidevine = false }
         )
     }
 
@@ -550,6 +600,20 @@ fun SystemTab(
             },
             titleColor = MaterialTheme.colorScheme.error
         )
+
+        ActionCard(
+            title = stringResource(R.string.system_widevine_title),
+            description = stringResource(R.string.system_widevine_desc),
+            isExecuting = isExecuting,
+            onClick = {
+                if (RootExecutor.isShizukuMode) {
+                    showShizukuUnavailable = true
+                    return@ActionCard
+                }
+                showWidevine = true
+            },
+            titleColor = MaterialTheme.colorScheme.error
+        )
         
         Spacer(modifier = Modifier.height(32.dp))
     }
@@ -584,6 +648,46 @@ fun AntiArbDialog(
                 enabled = countdown == 0
             ) {
                 Text(if (countdown > 0) stringResource(R.string.confirm_countdown, countdown) else stringResource(R.string.confirm), color = if (countdown == 0) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface)
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) }
+        }
+    )
+}
+
+@Composable
+fun WidevineDialog(
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    var countdown by remember { mutableStateOf(10) }
+
+    LaunchedEffect(Unit) {
+        while (countdown > 0) {
+            delay(1000)
+            countdown--
+        }
+    }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.widevine_dialog_title), color = MaterialTheme.colorScheme.error) },
+        text = {
+            Text(
+                text = stringResource(R.string.widevine_dialog_text),
+                style = MaterialTheme.typography.bodyMedium
+            )
+        },
+        confirmButton = {
+            TextButton(
+                onClick = onConfirm,
+                enabled = countdown == 0
+            ) {
+                Text(
+                    text = if (countdown > 0) stringResource(R.string.confirm_countdown, countdown) else stringResource(R.string.confirm),
+                    color = if (countdown == 0) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface
+                )
             }
         },
         dismissButton = {
@@ -807,6 +911,23 @@ private fun showResult(context: android.content.Context, actionName: String, res
 
 @Composable
 fun AboutCard(context: android.content.Context) {
+    var showAck by remember { mutableStateOf(false) }
+
+    if (showAck) {
+        AlertDialog(
+            onDismissRequest = { showAck = false },
+            title = { Text(stringResource(R.string.about_acknowledgements), color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.SemiBold) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Text(text = stringResource(R.string.about_ack_desc), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface)
+                    Text(text = stringResource(R.string.about_ack_widevine), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface)
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showAck = false }) { Text(stringResource(R.string.ok)) }
+            }
+        )
+    }
     var version = "1.0"
     var buildTime = "Unknown"
     try {
@@ -871,28 +992,45 @@ fun AboutCard(context: android.content.Context) {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(githubUrl))
                 context.startActivity(intent)
             }) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_github),
+                    contentDescription = "GitHub",
+                    tint = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = stringResource(R.string.about_github),
+                    text = "GitHub",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
 
             HorizontalDivider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
-            Spacer(modifier = Modifier.height(12.dp))
-
-            Text(
-                text = stringResource(R.string.about_acknowledgements),
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary,
-                fontWeight = FontWeight.SemiBold
-            )
             Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = stringResource(R.string.about_ack_desc),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-            )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(12.dp))
+                    .clickable { showAck = true }
+                    .padding(horizontal = 4.dp, vertical = 10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = stringResource(R.string.about_acknowledgements),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Icon(
+                    imageVector = Icons.Rounded.Info,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(18.dp)
+                )
+            }
         }
     }
 }

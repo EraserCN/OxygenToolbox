@@ -45,6 +45,8 @@
     <string name="system_header_experimental">Experimental Features</string>
     <string name="system_anti_arb_title">Anti-ARB (Experimental)</string>
     <string name="system_anti_arb_desc">Synchronizes the xbl_config partition to the inactive slot. Use only BEFORE rebooting an OTA.</string>
+    <string name="system_widevine_title">Fix Widevine L1 Certification</string>
+    <string name="system_widevine_desc">Burns the device attestation keybox into TEE to restore Widevine L1. This is an irreversible operation that modifies TEE permanently.</string>
     
     <string name="anti_arb_dialog_title">Anti-ARB (High Risk)</string>
     <string name="anti_arb_dialog_text">HIGHLY EXPERIMENTAL\nThis feature must only be used AFTER an OTA download completes and BEFORE rebooting!\n\nWARNING: No guarantees of availability. Misuse carries an irrecoverable bricking risk!</string>
@@ -66,7 +68,8 @@
     <string name="about_target_sdk">Target SDK: %1$d</string>
     <string name="about_github">GitHub: github.com/EraserCN/OxygenToolbox</string>
     <string name="about_acknowledgements">Acknowledgements</string>
-    <string name="about_ack_desc">Stillrain-001 for ARBscan</string>
+    <string name="about_ack_desc">• Stillrain-001 — ARBscan tool</string>
+    <string name="about_ack_widevine">• mlgmxyysd &amp; Steve0007 — Widevine Fix</string>
 
     <!-- Device Info Tab -->
     <string name="device_info_header_device">Device Information</string>
@@ -105,4 +108,10 @@
     <string name="anti_arb_success_flashed">Anti-ARB executed successfully!\nPlease go to [System Update] to reboot your device.</string>
     <string name="anti_arb_failed">Anti-ARB Failed: %1$s</string>
     <string name="error">Error: %1$s</string>
+
+    <!-- Widevine L1 Fix -->
+    <string name="widevine_dialog_title">Fix Widevine L1 (High Risk)</string>
+    <string name="widevine_dialog_text">WARNING: This operation burns the attestation keybox permanently into TEE.\n\nUsers have reported that re-locking the Bootloader after burning may cause TEE damage. Please confirm you have read and understood all of the above before proceeding.</string>
+    <string name="widevine_success">Widevine L1 keybox installed successfully!</string>
+    <string name="widevine_failed">Widevine L1 fix failed: %1$s</string>
 </resources>
