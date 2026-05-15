@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- White background to match original PNG icon appearance -->
+    <color name="ic_launcher_background">#FFFFFF</color>
+    <color name="primaryColor">#FF0000</color>
+</resources>

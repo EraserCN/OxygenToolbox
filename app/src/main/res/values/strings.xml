@@ -39,17 +39,17 @@
     <string name="tools_install_sms_title">Install ColorOS SMS</string>
     <string name="tools_install_sms_desc">Installs the embedded ColorOS SMS app module.</string>
     
-    <string name="system_header_diagnostics">Diagnostics</string>
+    <string name="system_header_diagnostics">ARB Detector</string>
     <string name="system_arb_status_title">Check ARB Status</string>
     <string name="system_arb_status_desc">Runs the Anti-Rollback detection tool. Requires root.</string>
     <string name="system_header_experimental">Experimental Features</string>
-    <string name="system_anti_arb_title">Anti-ARB (Experimental)</string>
+    <string name="system_anti_arb_title">Anti-ARB</string>
     <string name="system_anti_arb_desc">Synchronizes the xbl_config partition to the inactive slot. Use only BEFORE rebooting an OTA.</string>
     <string name="system_widevine_title">Fix Widevine L1 Certification</string>
     <string name="system_widevine_desc">Burns the device attestation keybox into TEE to restore Widevine L1. This is an irreversible operation that modifies TEE permanently.</string>
     
     <string name="anti_arb_dialog_title">Anti-ARB (High Risk)</string>
-    <string name="anti_arb_dialog_text">HIGHLY EXPERIMENTAL\nThis feature must only be used AFTER an OTA download completes and BEFORE rebooting!\n\nWARNING: No guarantees of availability. Misuse carries an irrecoverable bricking risk!</string>
+    <string name="anti_arb_dialog_text">This feature must only be used AFTER an OTA download completes and BEFORE rebooting!\n\nWARNING: No guarantees of availability. Misuse carries an irrecoverable bricking risk!</string>
     <string name="confirm">Confirm</string>
     <string name="confirm_countdown">Confirm (%1$d)</string>
     <string name="cancel">Cancel</string>

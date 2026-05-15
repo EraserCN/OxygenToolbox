@@ -39,7 +39,7 @@
     <string name="tools_install_sms_title">安装 ColorOS 短信</string>
     <string name="tools_install_sms_desc">静默安装应用内置打包的 ColorOS 短信提取版。</string>
     
-    <string name="system_header_diagnostics">诊断工具</string>
+    <string name="system_header_diagnostics">ARB 检测器</string>
     <string name="system_arb_status_title">检测 ARB 状态</string>
     <string name="system_arb_status_desc">运行防回滚 (Anti-Rollback) 检测工具，获取熔断指数。</string>
     <string name="system_header_experimental">实验性功能</string>
@@ -49,7 +49,7 @@
     <string name="system_widevine_desc">将设备认证 Keybox 永久烧录至 TEE，以恢复 Widevine L1 认证。此操作不可撤销，将永久修改 TEE。</string>
     
     <string name="anti_arb_dialog_title">Anti-ARB (高风险)</string>
-    <string name="anti_arb_dialog_text">HIGHLY EXPERIMENTAL\n此功能只能在 OTA 下载完成并且重启之前使用！\n\n警告：无任何可用性保证，可能会导致设备无法正常启动或无法挽回的砖机风险！</string>
+    <string name="anti_arb_dialog_text">此功能只能在 OTA 下载完成并且重启之前使用！\n\n警告：无任何可用性保证，可能会导致设备无法正常启动或无法挽回的砖机风险！</string>
     <string name="confirm">确认执行</string>
     <string name="confirm_countdown">确认 (%1$d)</string>
     <string name="cancel">取消</string>

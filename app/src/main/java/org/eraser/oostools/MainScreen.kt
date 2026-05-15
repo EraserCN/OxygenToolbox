@@ -579,14 +579,6 @@ fun SystemTab(
             }
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(
-            text = stringResource(R.string.system_header_experimental),
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.error
-        )
-
         ActionCard(
             title = stringResource(R.string.system_anti_arb_title),
             description = stringResource(R.string.system_anti_arb_desc),
@@ -597,8 +589,7 @@ fun SystemTab(
                     return@ActionCard
                 }
                 showAntiArb = true
-            },
-            titleColor = MaterialTheme.colorScheme.error
+            }
         )
 
         ActionCard(
@@ -611,8 +602,7 @@ fun SystemTab(
                     return@ActionCard
                 }
                 showWidevine = true
-            },
-            titleColor = MaterialTheme.colorScheme.error
+            }
         )
         
         Spacer(modifier = Modifier.height(32.dp))
@@ -946,13 +936,18 @@ fun AboutCard(context: android.content.Context) {
             .padding(20.dp)
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
-            Image(
-                painter = painterResource(id = R.mipmap.ic_launcher),
-                contentDescription = null,
+            Box(
                 modifier = Modifier
                     .size(80.dp)
                     .clip(RoundedCornerShape(20.dp))
-            )
+                    .background(androidx.compose.ui.graphics.Color.White)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = stringResource(R.string.app_name),
