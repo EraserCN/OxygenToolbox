@@ -38,6 +38,11 @@
     <string name="tools_sms_desc">授予 ColorOS 短信应用所需的必要电话状态权限。</string>
     <string name="tools_install_sms_title">安装 ColorOS 短信</string>
     <string name="tools_install_sms_desc">静默安装应用内置打包的 ColorOS 短信提取版。</string>
+    <string name="tools_wechat_fcm_fix_title">一键修复微信 FCM</string>
+    <string name="tools_wechat_fcm_fix_desc">删除微信失效的 FCM 注册文件，并反复启动、关闭微信，直到文件重新生成。需要 Root。</string>
+    <string name="wechat_fcm_fix_running">正在修复微信 FCM 推送，可能需要约 2 分钟。</string>
+    <string name="wechat_fcm_fix_success">微信 FCM 注册文件已重新生成。</string>
+    <string name="wechat_fcm_fix_failed">微信 FCM 修复失败: %1$s</string>
     
     <string name="system_header_diagnostics">ARB 检测器</string>
     <string name="system_arb_status_title">检测 ARB 状态</string>

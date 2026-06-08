@@ -400,6 +400,29 @@ fun ToolsTab(
                 }
             }
         )
+
+        val wechatFcmLabel = context.getString(R.string.tools_wechat_fcm_fix_title)
+        ActionCard(
+            title = wechatFcmLabel,
+            description = stringResource(R.string.tools_wechat_fcm_fix_desc),
+            isExecuting = isExecuting,
+            onClick = {
+                setExecuting(true)
+                Toast.makeText(context, context.getString(R.string.wechat_fcm_fix_running), Toast.LENGTH_LONG).show()
+                coroutineScope.launch(Dispatchers.IO) {
+                    val result = RootExecutor.execute(buildWechatFcmFixCommand())
+                    withContext(Dispatchers.Main) {
+                        setExecuting(false)
+                        if (result.success) {
+                            Toast.makeText(context, context.getString(R.string.wechat_fcm_fix_success), Toast.LENGTH_LONG).show()
+                        } else {
+                            val message = result.error.ifBlank { result.output }
+                            Toast.makeText(context, context.getString(R.string.wechat_fcm_fix_failed, message), Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+            }
+        )
         
         Spacer(modifier = Modifier.height(32.dp))
     }
@@ -897,6 +920,41 @@ private fun showResult(context: android.content.Context, actionName: String, res
     } else {
         Toast.makeText(context, context.getString(R.string.toast_failed, actionName, result.error), Toast.LENGTH_LONG).show()
     }
+}
+
+private fun buildWechatFcmFixCommand(): String {
+    return """
+        pkg=com.tencent.mm;
+        dir=/data/data/com.tencent.mm/no_backup;
+        appid=${'$'}dir/com.google.android.gms.appid-no-backup;
+        instance=${'$'}dir/com.google.InstanceId.properties;
+        if ! pm path "${'$'}pkg" >/dev/null 2>&1; then echo "WeChat package not found: ${'$'}pkg"; exit 2; fi;
+        if [ ! -d "${'$'}dir" ]; then echo "WeChat no_backup directory not found. Open WeChat once and try again."; exit 3; fi;
+        rm -f "${'$'}appid" "${'$'}instance";
+        attempt=1;
+        max_attempts=12;
+        while [ "${'$'}attempt" -le "${'$'}max_attempts" ]; do
+          am force-stop "${'$'}pkg" >/dev/null 2>&1;
+          monkey -p "${'$'}pkg" -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1;
+          waited=0;
+          while [ "${'$'}waited" -lt 10 ]; do
+            if [ -f "${'$'}appid" ] && [ -f "${'$'}instance" ]; then
+              am force-stop "${'$'}pkg" >/dev/null 2>&1;
+              echo "DONE:${'$'}attempt";
+              exit 0;
+            fi;
+            sleep 1;
+            waited=${'$'}((waited + 1));
+          done;
+          am force-stop "${'$'}pkg" >/dev/null 2>&1;
+          sleep 2;
+          attempt=${'$'}((attempt + 1));
+        done;
+        echo "WeChat FCM files were not regenerated after ${'$'}max_attempts attempts.";
+        echo "${'$'}appid: ${'$'}([ -f "${'$'}appid" ] && echo present || echo missing)";
+        echo "${'$'}instance: ${'$'}([ -f "${'$'}instance" ] && echo present || echo missing)";
+        exit 1;
+    """.trimIndent().replace("\n", " ").replace("\r", "")
 }
 
 @Composable

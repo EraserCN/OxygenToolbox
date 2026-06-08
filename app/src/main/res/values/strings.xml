@@ -38,6 +38,11 @@
     <string name="tools_sms_desc">Grants necessary permissions for the ColorOS SMS app.</string>
     <string name="tools_install_sms_title">Install ColorOS SMS</string>
     <string name="tools_install_sms_desc">Installs the embedded ColorOS SMS app module.</string>
+    <string name="tools_wechat_fcm_fix_title">Fix WeChat FCM Push</string>
+    <string name="tools_wechat_fcm_fix_desc">Deletes stale WeChat FCM registration files, then restarts WeChat until they are regenerated. Requires root.</string>
+    <string name="wechat_fcm_fix_running">Fixing WeChat FCM push. This may take about 2 minutes.</string>
+    <string name="wechat_fcm_fix_success">WeChat FCM registration files were regenerated successfully.</string>
+    <string name="wechat_fcm_fix_failed">WeChat FCM fix failed: %1$s</string>
     
     <string name="system_header_diagnostics">ARB Detector</string>
     <string name="system_arb_status_title">Check ARB Status</string>
